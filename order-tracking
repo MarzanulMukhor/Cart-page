@@ -1,0 +1,133 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const AgroKartBDApp());
+}
+
+class AgroKartBDApp extends StatelessWidget {
+  const AgroKartBDApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'AgroKart BD',
+      debugShowCheckedModeBanner: false,
+      home: const OrderFlowPage(),
+    );
+  }
+}
+
+class OrderFlowPage extends StatelessWidget {
+  const OrderFlowPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: const Text('Order Status'),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [
+          const SizedBox(height: 20),
+
+          // App Logo
+          const CircleAvatar(
+            backgroundColor: Colors.green,
+            radius: 40,
+            child: Icon(Icons.shopping_cart, color: Colors.white, size: 40),
+          ),
+          const SizedBox(height: 12),
+          const Text(
+            'AgroKart BD',
+            style: TextStyle(
+                fontSize: 22, fontWeight: FontWeight.bold, color: Colors.green),
+          ),
+          const SizedBox(height: 30),
+
+          // Order Flow Steps
+          StepItem(
+            icon: Icons.hourglass_bottom,
+            label: 'Pending',
+            color: Colors.orange,
+            isDone: true,
+          ),
+          const Divider(thickness: 1, indent: 50, endIndent: 50),
+          StepItem(
+            icon: Icons.local_shipping,
+            label: 'Shipped',
+            color: Colors.blue,
+            isDone: true,
+          ),
+          const Divider(thickness: 1, indent: 50, endIndent: 50),
+          StepItem(
+            icon: Icons.check_circle,
+            label: 'Delivered',
+            color: Colors.green,
+            isDone: false,
+          ),
+
+          const SizedBox(height: 40),
+
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+            ),
+            icon: const Icon(Icons.track_changes),
+            label: const Text(
+              'Track Order',
+              style: TextStyle(fontSize: 16),
+            ),
+            onPressed: () {
+              // Placeholder for future navigation
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Tracking coming soon...")),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class StepItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final Color color;
+  final bool isDone;
+
+  const StepItem({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.isDone,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: CircleAvatar(
+        radius: 22,
+        backgroundColor: isDone ? color : Colors.grey[300],
+        child: Icon(icon, color: Colors.white),
+      ),
+      title: Text(
+        label,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: isDone ? Colors.black : Colors.grey,
+        ),
+      ),
+      trailing: isDone
+          ? const Icon(Icons.check, color: Colors.green)
+          : const Icon(Icons.timelapse, color: Colors.grey),
+    );
+  }
+}
